@@ -25,10 +25,6 @@ public class Solution {
 
     public int robHelper(int[] nums){
         int n = nums.length;
-        if(n == 0)
-            return 0;
-        if(n == 1)
-            return nums[0];
         int[] dp = new int[n];
         dp[0] = nums[0]; dp[1] = Math.max(dp[0], nums[1]);
         int max = Math.max(dp[0], dp[1]);
