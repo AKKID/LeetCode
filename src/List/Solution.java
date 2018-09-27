@@ -25,6 +25,30 @@ public class Solution {
 
     }
     /***********************82***************************/
+    public ListNode deleteDuplicatesI(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        ListNode dummy = new ListNode(0);
+        ListNode tHead = dummy, org = head, cur = head.next;
+        while(cur != null){
+            tHead.next = org;
+            tHead = tHead.next;
+            if(cur.val != org.val){
+                org = cur;
+                cur = org.next;
+            }else{
+                while(cur != null && cur.val == org.val){
+                    cur = cur.next;
+                }
+                if(cur != null){
+                    org = cur;
+                    cur = org.next;
+                }
+            }
+        }
+        return dummy.next;
+    }
+    /***********************82***************************/
     // Using two pointers. cur to traverse the list and org to be the first list that
     // its value is different from before. If cur's value is different from org then add org
     // otherwise move cur to the first ListNode which's value is different from org. And move org to

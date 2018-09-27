@@ -1,10 +1,61 @@
 package DP;
 
+import java.util.Stack;
+
 public class Solution {
     public static void main(String[] args){
         Solution s = new Solution();
-        System.out.println(s.rob(new int[]{1,2,3,}));
+        System.out.println(s.longestValidParentheses("()))()()()))((((()))))"));
     }
+    /***********************32***************************/
+    public int longestValidParentheses(String s) {
+        Stack<Integer> s1 = new Stack<>();
+        Stack<Pair> s2 = new Stack<>();
+        int max = 0;
+        for(int i = 0; i < s.length();i++){
+            char ch = s.charAt(i);
+            if(ch == '('){
+                s1.push(i);
+            }else{
+                if(!s1.isEmpty()){
+                    int f = s1.pop();
+                    Pair nPair = new Pair(f,i);
+                    while(!s2.isEmpty()){
+                        Pair tmp = s2.peek();
+                        if(tmp.s + 1 == nPair.f){
+                            nPair = new Pair(tmp.f,nPair.s);
+                            s2.pop();
+                        }else if(tmp.s < nPair.s && tmp.f > nPair.f){
+                            s2.pop();
+                        }else{
+                            break;
+                        }
+                    }
+                    s2.push(nPair);
+                    max = Math.max(max, nPair.s - nPair.f + 1);
+                }
+            }
+        }
+        return max;
+    }
+    public int longestValidParentheses_(String s){
+        int[] dp = new int[s.length()];
+        int result = 0;
+        int leftCount = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                leftCount++;
+            } else if (leftCount > 0){
+                dp[i] = dp[i - 1] + 2;
+                dp[i] += (i - dp[i]) >= 0 ? dp[i - dp[i]] : 0;
+                result = Math.max(result, dp[i]);
+                leftCount--;
+            }
+        }
+        return result;
+    }
+
+
     /***********************213***************************/
     // This problem is slightly changed in House Robber I
     // We can divide it into two sides. First rob house 1 then we cannot the last house
@@ -62,4 +113,13 @@ public class Solution {
 
 
 
+}
+
+class Pair {
+    int f;
+    int s;
+    public Pair(int f, int s){
+        this.f = f;
+        this.s = s;
+    }
 }
