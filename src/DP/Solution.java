@@ -5,7 +5,72 @@ import java.util.Stack;
 public class Solution {
     public static void main(String[] args){
         Solution s = new Solution();
-        System.out.println(s.longestValidParentheses("()))()()()))((((()))))"));
+        System.out.println(s.longestPalindromeSubseq("bbbab"));
+    }
+    /***********************516***************************/
+    public int longestPalindromeSubseq(String s) {
+        int len = s.length();
+        if(len == 0)
+            return 0;
+        int[][] dp = new int[len + 1][len + 1];
+        for(int i = 0; i <= len;i++)
+            dp[i][i] = 1;
+        for(int j = 1; j <= len;j++){
+            for(int i = 1; i + j <= len;i++){
+                if(s.charAt(i - 1) == s.charAt(i + j - 1)){
+                    dp[i][i + j] = Math.max(dp[i + 1][i + j - 1] + 2,dp[i][i + j - 1]);
+
+                }else{
+                    dp[i][i + j] = Math.max(dp[i][i + j - 1],dp[i+1][j+i]);
+                }
+            }
+        }
+        return dp[1][len];
+    }
+    /***********************97***************************/
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int m = s1.length(), n = s2.length(), l = s3.length();
+        if(m + n != l)
+            return false;
+        if((s3.equals(s1) && n == 0) || (s3.equals(s2) && m == 0))
+            return true;
+        boolean[][][] dp = new boolean[l + 1][m + 1][n + 1];
+        dp[0][0][0] = true;
+        for(int i = 1; i <= m;i++){
+            if(s1.charAt(i - 1) == s3.charAt(i - 1))
+                dp[i][i][0] = true;
+            else break;
+        }
+        for(int i = 1; i <= n;i++){
+            if(s2.charAt(i - 1) == s3.charAt(i - 1))
+                dp[i][0][i] = true;
+            else break;
+        }
+        for(int k = 1;k<=l;k++){
+            for(int i = 1;i <= m;i++){
+                if(s1.charAt(i - 1) == s3.charAt(k - 1)){
+                    for(int j = 1; j <= n;j++){
+                        dp[k][i][j] = dp[k][i][j] || dp[k - 1][i - 1][j];
+                    }
+                }
+
+                for(int j = 1; j <= n;j++){
+                    if(s2.charAt(j - 1) == s3.charAt(k - 1))
+                        dp[k][i][j] = dp[k][i][j] || dp[k - 1][i][j - 1];
+                }
+
+            }
+        }
+//        for(int i = 0; i < dp.length;i++){
+//            for(int j = 0; j < dp[i].length;j++){
+//                for(int k = 0; k < dp[i][j].length;k++){
+//                    System.out.print(dp[i][j][k] + "\t");
+//                }
+//                System.out.println();
+//            }
+//            System.out.println();
+//        }
+        return dp[l][m][n];
     }
     /***********************32***************************/
     public int longestValidParentheses(String s) {
