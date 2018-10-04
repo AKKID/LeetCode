@@ -7,7 +7,10 @@ public class Solution {
         Solution s = new Solution();
         System.out.println(s.longestPalindromeSubseq("bbbab"));
     }
+
     /***********************516***************************/
+    // dp[i][j] stands for the longest palindrome subseq from ith char of s
+    // and length of the substring is j
     public int longestPalindromeSubseq(String s) {
         int len = s.length();
         if(len == 0)
@@ -61,15 +64,6 @@ public class Solution {
 
             }
         }
-//        for(int i = 0; i < dp.length;i++){
-//            for(int j = 0; j < dp[i].length;j++){
-//                for(int k = 0; k < dp[i][j].length;k++){
-//                    System.out.print(dp[i][j][k] + "\t");
-//                }
-//                System.out.println();
-//            }
-//            System.out.println();
-//        }
         return dp[l][m][n];
     }
     /***********************32***************************/
